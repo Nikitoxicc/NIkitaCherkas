@@ -24,4 +24,4 @@ double getA(const double x, const double y, const double z) {
 
 double getB(const double x, const double y, const double z) {
   return 1 + ((pow(z, 2)) / 3 + (pow(z,2) / 5));
-}  
+}

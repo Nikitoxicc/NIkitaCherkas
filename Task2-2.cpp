@@ -16,7 +16,7 @@ int main() {
   cin >> a >> n;
 	const auto Area = getArea(a, n);
 	const auto Perimetr = getPerimetr(a, n);
-	cout << "Стророна a = " << a << "\nКоэффициент n = " << n << "\nПериметр = " << S << "\nПлощадь = " << P;
+	cout << "Стророна a = " << a << "\nКоэффициент n = " << n << "\nПериметр = " << Area << "\nПлощадь = " << Perimetr;
 
 	return 0;
 }

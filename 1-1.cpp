@@ -35,7 +35,7 @@ int main() {
 }
 
 double getA(const double x, const double y, const double z) {
-  return (2 * cos (x - M_PI/6)) / (1/2 + (pow(sin(y),2)));
+  return (2 * cos (x - M_PI/6)) / (0.5 + (pow(sin(y),2)));
 }
 
 double getB(const double x, const double y, const double z) {

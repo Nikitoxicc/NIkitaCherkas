@@ -5,8 +5,24 @@
 
 using namespace std;
 
-double getA(const double x, const double y, const double z);
-double getB(const double x, const double y, const double z);
+/**
+* \brief вычисление переменной A по заданной формуле
+* \param сonst double x - константа данная по условию
+* \param сonst double y - константа данная по условию
+* \param сonst double z - константа данная по условию
+* \return - значение a
+*/
+double GetA(const double x, const double y, const double z);
+
+/**
+* \brief вычисление переменной B по заданной формуле
+* \param сonst double x - константа данная по условию
+* \param сonst double y - константа данная по условию
+* \param сonst double z - константа данная по условию
+* \return - значение b
+*/
+double GetB(const double x, const double y, const double z);
+
 int main() {
 	const double x = 1.426;
 	const double y = -1.22;

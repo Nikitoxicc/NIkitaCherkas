@@ -5,6 +5,12 @@
 
 using namespace std;
 
+/**
+* \brief вычисление кинетической энергии
+* \param сonst double m - константа данная по условию
+* \param сonst double v - константа данная по условию
+* \return - значение  кинетической энергии e
+*/
 double gete(const double m, const double v);
 
 
@@ -21,4 +27,4 @@ int main() {
 }
 
 double gete(const double m, const double v) { 
-  return (m * pow(v, 2)) / 2; } 
+  return (m*0.001 * pow(v, 2)) / 2; } 

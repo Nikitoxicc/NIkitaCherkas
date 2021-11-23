@@ -11,20 +11,21 @@ using namespace std;
 * \param сonst double v - константа данная по условию
 * \return - значение  кинетической энергии e
 */
-double gete(const double m, const double v);
+double getE(const double mass, const double velocity);
 
 
 int main() {
-  double m, v;
+  double mass =0.0;
+  double velocity = 0.0;
 
   cout << "Введите массу и скорость и нажмите Enter: \n";
-  cin >> m >> v;
+  cin >> mass >> velocity;
 
-	const auto e = gete(m, v);
+	const auto e = getE(mass, velocity);
 
-	cout << "Масса m = " << m << "\nСкорость v = " << v << "\nКинетическая энергия = " << e;
+	cout << "Масса m = " << mass << "\nСкорость v = " << velocity << "\nКинетическая энергия = " << e;
 	return 0;
 }
 
-double gete(const double m, const double v) { 
-  return (m*0.001 * pow(v, 2)) / 2; } 
+double getE(const double mass, const double velocity) { 
+  return (mass*0.001 * pow(velocity, 2)) / 2; } 

@@ -1,31 +1,78 @@
 #include <iostream>
-#include <cmath>
-using namespace std;
+/**
+ * \brief Константы фигур.
+ */
+enum class FIGURE
+{
+    /**
+     * \brief Параллелограмм.
+     */
+    Parallelogram,
+
+    /**
+     * \brief Ромб.
+     */
+     Rhombus,
+
+     /**
+      * \brief Трапеция.
+      */
+      Trapezoid,
+    /**
+      * \brief Четырёхугольник.
+      */
+      Quadrilateral,
+    /**
+      * \brief Круг.
+      */
+      Circle,
+    /**
+      * \brief Эллипс.
+      */
+      Ellipse,
+};
+
 
 /**
-* \brief Вывод формулы площади по заданной фигуре
-* \param сonst int a - номер фигуры по списку
-* \return - формулу фигуры
-*/
-void getFigure(const int a);
-
+ * \brief Точка входа в программу.
+ * \return Возвращает 0 в случае успеха.
+ */
 int main()
 {
-int a = 0;
-cout<<"Введите цифру, под которой назначена фигура"<<endl;
-cout<<"\n 1.Параллелограм \n 2.Ромб \n 3.Трапеция \n 4.Четырёхугольник \n 5.Круг \n 6.Элипс\n";
-cin>>a;
-getFigure(a);
-return 0;
-}
-
-void getFigure(const int a) {
-switch(a) {
-case 1: cout<<"Параллелограмм: S = a · h\n S = a · b · sin α\nS= (d1 · d2 · sin y)/2\n"; break;
-case 2: cout<<"Ромб: S = a · h\n S = a^2 · sin α'\n(d1 · d2)/2\n"; break;
-case 3: cout<<"Трапеция: S= sqrt( p*(p-a) * (p-b) * (p-c) )\np=( a+b+c )/ 2\nS= ( h* ( a+b ) )/ 2"; break;
-case 4: cout<<"Четырехугольник: S = √(p - a)(p - b)(p - c)(p - d) - abcd cos2θ\nS = p · r\nS= (d1 · d2 · sin y)/2"; break;
-case 5: cout<<"Круг: S = π * r ^ 2\nS= (π * d ^ 2)/4"; break;
-case 6: cout<<"Элипс: S = π · a · b"; break;
-}
+    setlocale(LC_ALL, "Russian");
+    std::cout << "Площадь какой фигуры вы хотите узнать? "
+        << "\nПараллелограмм - " << static_cast<int>(FIGURE::Parallelogram)
+        << "\nРомб - "<< static_cast<int>(FIGURE::Rhombus)
+        << "\nТрапеция - "<< static_cast<int>(FIGURE::Trapezoid)
+        << "\nЧетырёхугольник - "<< static_cast<int>(FIGURE::Quadrilateral)
+        << "\nКруг - "<< static_cast<int>(FIGURE::Circle)
+        << "\nЭллипс - "<< static_cast<int>(FIGURE::Ellipse)<<std::endl;
+    
+    int figure;
+    std::cin >> figure;
+    
+    
+    const auto Figure = static_cast<FIGURE>(figure);
+    switch (Figure)
+    {
+    case FIGURE::Parallelogram:
+        std::cout << "Параллелограмм: S = a · h\n S = a · b · sin α\nS= (d1 · d2 · sin y)/2\n";
+        break;
+    case FIGURE::Rhombus:
+        std::cout << "Ромб: S = a · h\n S = a^2 · sin α'\n(d1 · d2)/2\n";
+        break;
+    case FIGURE::Trapezoid:
+    std::cout << "Трапеция: S= sqrt( p*(p-a) * (p-b) * (p-c) )\np=( a+b+c )/ 2\nS= ( h* ( a+b ) )/ 2\n";
+        break;
+    case FIGURE::Quadrilateral:
+        std::cout << "Четырехугольник: S = √(p - a)(p - b)(p - c)(p - d) - abcd cos2θ\nS = p · r\nS= (d1 · d2 · sin y)/2\n";
+        break;
+    case FIGURE::Circle:
+        std::cout << "Круг: S = π * r ^ 2\nS= (π * d ^ 2)/4";
+        break;
+    case FIGURE::Ellipse:
+        std::cout << "Элипс: S = π · a · b\n";
+        break;
+        }
+    return 0;
 }

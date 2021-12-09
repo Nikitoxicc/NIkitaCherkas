@@ -67,7 +67,7 @@ double GetEPowerX(const double x)
 
 double GetRecurrent(const double x, const unsigned int n)
 {
-    return pow(x, 2 * n) / tgamma(2 * n + 1);
+    return pow(x, 2 * n) / (2 * n + 1);
 }
 
 double GetSumOfSeries(const double x, const double e)

@@ -33,7 +33,7 @@ int main()
 {
     int n;
     double e = 0.0;
-    int k = 0.0;
+    int k = 0;
     cout<<"Введите количество членов ряда"<< endl;
     cin >> n;
     cout<< "Введите e ";

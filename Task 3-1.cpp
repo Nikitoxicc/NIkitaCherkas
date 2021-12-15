@@ -3,25 +3,26 @@
 using namespace std;
 
 /**
- * \brief Проверка косинуса на равенство 0.
+ *\brief Проверка косинуса на равенство c 0.
  *\param x - константа, имеющая тип данных с плавающей точкой двойной точности.
- * return 0 - в случае неравенства 0.
+ *\param flag - логическая переменная,указывающая на истинность или ложность условия. 
+ *\return flag - возвращает выполнение или невыполнение условия.
 **/
-double isCalculated(const double x);
+bool isCalculated(const double x);
 
 /**
-* \brief Математическая функция, рассчитывающая значение функции y.
-* \param x - константа, имеющая тип данных с плавающей точкой двойной точности.
-* \return Возвращает значение функции y.
+ *\brief Математическая функция, рассчитывающая значение функции y.
+ *\param x - константа, имеющая тип данных с плавающей точкой двойной точности.
+ *\return Возвращает значение функции y.
 **/
 double getY(const double x);
 /**
-* \brief Точка входа в программу.
-* \param step - шаг.
-* \param border - Максимальное значение x.
-* \param value1 - Начальное значение x.
-* \return Возвращает 0 в случае успешного выполнения.
-*/
+ *\brief Точка входа в программу.
+ *\param step - шаг.
+ *\param border - Максимальное значение x.
+ *\param value1 - Начальное значение x.
+ *\return Возвращает 0 в случае успешного выполнения.
+ */
 int main()
 {
     const double x = 0;
@@ -32,14 +33,17 @@ int main()
     {
         cout << "y = " << getY(x) << endl;
     }
+    return 0;
 }
 
-double isCalculated(const double x){
+bool isCalculated(const double x){
+    bool flag = false;
     const double epsilon = 0.001;
     if ((cos(x) - 0) <= epsilon)
-      return 0;
+      flag = true;
+    return flag;
 }
 
 double getY(const double x) {
-    if (isCalculated(x) == 0)
+    if (isCalculated(x) == true)
      return tan(x) - 1.0 / 3.0 * pow(tan(x), 3 ) + 0.2 * pow(tan(x), 5 ) - 1.0 / 3.0;}

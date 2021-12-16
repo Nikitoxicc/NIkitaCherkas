@@ -31,19 +31,20 @@ int main()
     const int value1 = 0;
     for (double x = value1; x <= border; x = x + step)
     {
-        cout << "y = " << getY(x) << endl;
+        if (isCalculated(x))
+           cout << "y = " << getY(x) << endl;
+        else cout<< "err"<< endl;
     }
     return 0;
 }
 
 bool isCalculated(const double x){
-    bool flag = false;
+    bool flag = true;
     const double epsilon = 0.001;
-    if ((cos(x) - 0) <= epsilon)
-      flag = true;
+    if (abs(cos(x)) <= epsilon)
+      flag = false;
     return flag;
 }
 
 double getY(const double x) {
-    if (isCalculated(x) == true)
-     return tan(x) - 1.0 / 3.0 * pow(tan(x), 3 ) + 0.2 * pow(tan(x), 5 ) - 1.0 / 3.0;}
+    return tan(x) - 1.0 / 3.0 * pow(tan(x), 3 ) + 0.2 * pow(tan(x), 5 ) - 1.0 / 3.0;}

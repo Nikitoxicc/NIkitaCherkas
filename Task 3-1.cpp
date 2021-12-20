@@ -4,23 +4,19 @@ using namespace std;
 
 /**
  * \brief Проверка косинуса на равенство c 0.
- * \param x - константа, имеющая тип данных с плавающей точкой двойной точности.
- * \param flag - логическая переменная,указывающая на истинность или ложность условия. 
- * \return flag - возвращает выполнение или невыполнение условия.
+ * \param x - аргумент функции.
+ * \return - возвращает выполнение или невыполнение условия.
 **/
 bool isCalculated(const double x);
 
 /**
- * \brief Математическая функция, рассчитывающая значение функции y.
- * \param x - константа, имеющая тип данных с плавающей точкой двойной точности.
+ * \brief Расчет функции.
+ * \param x - аргумент функции.
  * \return Возвращает значение функции y.
 **/
 double getY(const double x);
 /**
  * \brief Точка входа в программу.
- * \param step - шаг.
- * \param border - Максимальное значение x.
- * \param value1 - Начальное значение x.
  * \return Возвращает 0 в случае успешного выполнения.
  */
 int main()
@@ -28,10 +24,10 @@ int main()
     const double x = 0;
     const double step = 0.05;
     const double border = 0.8;
-    const int value1 = 0;
-    for (double x = value1; x <= border; x = x + step)
+    const double firstValue = 0.0;
+    for (double x = firstValue; x <= border; x = x + step)
     {
-        if (isCalculated(x))
+        if (!isCalculated(x))
            cout << "y = " << getY(x) << endl;
         else cout<< "err"<< endl;
     }
@@ -39,11 +35,8 @@ int main()
 }
 
 bool isCalculated(const double x){
-    bool flag = true;
     const double epsilon = 0.001;
-    if (abs(cos(x)) <= epsilon)
-      flag = false;
-    return flag;
+    return abs(cos(x)) <= epsilon;
 }
 
 double getY(const double x) {

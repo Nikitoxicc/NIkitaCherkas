@@ -1,9 +1,21 @@
 #include <iostream>
 #include <string>
-#include <random>
 #include <ctime>
 
 using namespace std;
+
+/**
+ * \brief Проверка ввода размера массива.
+ * \return Размер массива.
+ */
+size_t GetSize();
+
+/**
+ * \brief Вывод элементов массива, значения которых больше значения предыдущего.
+ * \param myArray массив.
+ * \param size размер массива.
+ */
+void PrintBiggerElementsIndex(const int* myArray, size_t size);
 
 /**
  * \brief Заполнение массива случайными числами.
@@ -16,41 +28,26 @@ int* FillRandomArray(size_t size, int minValue, int maxValue);
 
 /**
  * \brief Вывод массива на консоль.
- * \param array массив.
+ * \param myArray массив.
  * \param size размер массива.
  */
-void ArrayPrint(const int* array, size_t size);
+void ArrayPrint(const int* myArray, size_t size);
 
 /**
  * \brief Функция определяет, есть ли 2 пары соседних элементов с одинаковыми знаками.
- * \param array массив.
+ * \param myArray массив.
  * \param size размер массива.
  * \return true, если имеются 2 элемента с одинаковыми знаками, false если нет.
  */
-bool isPairs(const int* array, const size_t size);
+bool ArePairs(const int* myArray, const size_t size);
 
 /**
  * \brief Замена минимального элемента массива на средний.
- * \param array массив.
+ * \param myArray массив.
  * \param size размер массива.
  * \param maxValue максимальное значение, которое может принимать элемент массива.
  */
-void minToAverageChange(const int* array, const size_t size, const int maxValue);
-
-/**
- * \brief Определяет, четность или нечетность числа.
- * \param element число.
- * \return если нечетное, то true. Если четное - false.
- */
-bool IsOdd(int element);
-
-/**
- * \brief Копирование исходного массива.
- * \param array исходный массив.
- * \param size размер массива.
- * \return новый массив со скопированными элементами.
- */
-int* ArrayCopy(const int* array, size_t size);
+void MinToAverageChange(int* myArray, const size_t size, const int maxValue);
 
 /**
  * \brief Метод, возвращающий заполненный пользователем массив.
@@ -76,135 +73,141 @@ enum class ArrayInputWay
  */
 int main()
 {
-    cout << "Введите размер массива = ";
-    size_t size;
-    cin >> size;
+    size_t size = GetSize();
 
-    if (size == 0)
+    if (size != 0)
     {
-        cout << "Введён неверный размер!\n";
-    }
-
-    cout << "Как вы хотите заполнить массив?\n";
-    cout << static_cast<int>(ArrayInputWay::random) << " - random,\n";
-    cout << static_cast<int>(ArrayInputWay::keyboard) << " - keyboard.\n";
-    cout << "Ваш выбор: ";
-    int choice;
-    cin >> choice;
+        
+        cout << "Как вы хотите заполнить массив?\n";
+        cout << static_cast<int>(ArrayInputWay::random) << " - random,\n";
+        cout << static_cast<int>(ArrayInputWay::keyboard) << " - keyboard.\n";
+        cout << "Ваш выбор: ";
+        int choice;
+        cin >> choice;
+        
+        const auto chosen = static_cast<ArrayInputWay>(choice);
+        int* myArray = nullptr;
     
-    const auto chosen = static_cast<ArrayInputWay>(choice);
-    int* myArray = nullptr;
-
-    auto minValue = 0;
-    auto maxValue = 0;
-    cout << "Введите диапазон чисел массива (сначала минимум, потом максимум) " << endl;
-    cin >> minValue >> maxValue;
-    if (maxValue <= minValue)
-    {
-        cout << "Введен неправильный диапазон!" << endl;
-    }
-
-    switch (chosen)
-    {
-    case ArrayInputWay::random:
-    {
-        myArray = FillRandomArray(size, minValue, maxValue);
-        break;
-    }
-    case ArrayInputWay::keyboard:
-    {
-        myArray = FillUserArray(size);
-        break;
-    }
-    }
-
-    ArrayPrint( myArray, size);
-
-    cout << "Массив с заменённым минимальным элементом: ";
+        auto minValue = 0;
+        auto maxValue = 0;
+        cout << "Введите диапазон чисел массива (сначала минимум, потом максимум) " << endl;
+        cin >> minValue >> maxValue;
+        if (maxValue <= minValue)
+        {
+            cout << "Введен неправильный диапазон!" << endl;
+        }
     
-    minToAverageChange(myArray, size, maxValue);
-
-    if (isPairs(myArray, size)) {
-        cout << "Есть 2 пары элементов, знаки которых одинаковы.";
+        switch (chosen)
+        {
+        case ArrayInputWay::random:
+        {
+            myArray = FillRandomArray(size, minValue, maxValue);
+            break;
+        }
+        case ArrayInputWay::keyboard:
+        {
+            myArray = FillUserArray(size);
+            break;
+        }
+        }
+    
+        ArrayPrint( myArray, size);
+    
+        cout << "Массив с заменённым минимальным элементом: ";
+        
+        MinToAverageChange(myArray, size, maxValue);
+        ArrayPrint(myArray, size);
+        
+        PrintBiggerElementsIndex(myArray, size);
+    
+        if (ArePairs(myArray, size)) {
+            cout << "Есть 2 пары элементов, знаки которых одинаковы.";
+        }
+        else {
+            cout << "Нет таких 2 пар соседних элементов, знаки которых одинаковы.";
+        }
+        cout << endl;
+        
+        if (myArray != nullptr) { 
+            
+            delete[] myArray;
+            myArray = nullptr;
+        
+        }
     }
-    else {
-        cout << "Нет таких 2 пар соседних элементов, знаки которых одинаковы.";
-    }
-    cout << endl;
     return 0;
     
 }
 
-bool isPairs(const int* array, const size_t size ) {
-    bool flag = false;
+size_t GetSize(){
+    int size = 0;
+    cout << "Введите размер массива"<< endl;
+    cin >> size;
+    if (size <= 0)
+    {
+        cout<< "Введён неверный размер";
+        return 0;
+    }
+    else 
+     return size;
+};
+
+void PrintBiggerElementsIndex(const int* myArray, size_t size){
+    auto previous = 0;
+    cout<<"Индексы элементов, значение которых больше значения предыдущего: ";
+    for (size_t index = 1; index < size; index++){
+        previous = myArray[index - 1];
+        if (previous < myArray[index]){
+            cout<<index << " ";
+        }
+    }
+    cout<<"\n";
+}
+
+bool ArePairs(const int* myArray, const size_t size ) {
     int countPairs = 0;
     int previous = 0;
-    const auto newArray = ArrayCopy(array, size);
     for (size_t index = 1; index < size; index=index + 2) {
-        previous = newArray[index - 1];
-        if (previous > 0 && newArray[index] > 0 || previous > 0 && newArray[index] > 0) {
+        previous = myArray[index - 1];
+        if (previous >= 0 && myArray[index] >= 0 || previous < 0 && myArray[index] < 0) {
             countPairs++;
         }
     }
-    if (countPairs > 2) {
-        flag = true;
-    }
+    return countPairs >= 2;
     
-    return flag;
 }
 
-int* ArrayCopy(const int* array, const size_t size)
+void MinToAverageChange(int* myArray, const size_t size, const int maxValue )
 {
-    if (array == nullptr)
-        return nullptr;
-
-    const auto copiedArray = new int[size];
-    for (size_t index = 0; index < size; index++)
-    {
-        copiedArray[index] = array[index];
-    }
-    return copiedArray;
-}
-
-void minToAverageChange(const int* array, const size_t size, const int maxValue )
-{
-    if (array == nullptr)
+    int temprary = 0;
+    if (myArray == nullptr)
         cout << "Массив пуст";
 
-    const auto newArray = ArrayCopy(array, size);
     auto minArrayValue = maxValue;
+    auto minElementIndex = 0;
 
     for (size_t index = 0; index < size; index++) {
-        if (newArray[index] < minArrayValue) {
-            minArrayValue = newArray[index];
+        if (myArray[index] < minArrayValue) {
+            minArrayValue = myArray[index];
+            minElementIndex = index;
         }
     }
-    newArray[(size + 1) / 2] = minArrayValue;
-
-    cout << "\nИзменённый массив:\n";
-
-    for (size_t index = 0; index < size; index++) {
-        cout << newArray[index];
-        cout << " ";
-    }
-    cout << "\n";
+    
+    temprary = myArray[minElementIndex];
+    myArray[minElementIndex] = myArray[(size - 1) / 2];
+    myArray[(size - 1) / 2] = temprary;
 }
 
-bool IsOdd(const int element)
+void ArrayPrint(const int* myArray, const size_t size)
 {
-    return element % 2 != 0;
-}
-
-void ArrayPrint(const int* array, const size_t size)
-{
-    if (array == nullptr)
+    if (myArray == nullptr)
     {
         cout << "Массива не существует";
     }
     else {
         cout << "\nМассив:\n";
         for (size_t index = 0; index < size; index++) {
-            cout << array[index] << " ";
+            cout << myArray[index] << " ";
         }
         cout << "\n";
 
@@ -213,6 +216,7 @@ void ArrayPrint(const int* array, const size_t size)
 
 int* FillRandomArray(const size_t size, const int minValue, const int maxValue)
 {
+    srand(time(NULL));
     const auto area = abs(minValue) + abs(maxValue) + 1;
     auto* array = new int[size];
     for (size_t index = 0; index < size; index++) {

@@ -15,7 +15,7 @@ size_t GetSize();
  * \param myArray массив.
  * \param size размер массива.
  */
-void PrintBiggerElementsIndex(const int* myArray, size_t size);
+void PrintBiggerElementsIndex(const int* myArray, const size_t size);
 
 /**
  * \brief Заполнение массива случайными числами.
@@ -75,65 +75,64 @@ int main()
 {
     size_t size = GetSize();
 
-    if (size != 0)
+    if (size == 0)
+        return 1;
+        
+    cout << "Как вы хотите заполнить массив?\n";
+    cout << static_cast<int>(ArrayInputWay::random) << " - random,\n";
+    cout << static_cast<int>(ArrayInputWay::keyboard) << " - keyboard.\n";
+    cout << "Ваш выбор: ";
+    int choice;
+    cin >> choice;
+        
+    const auto chosen = static_cast<ArrayInputWay>(choice);
+    int* myArray = nullptr;
+    
+    auto minValue = 0;
+    auto maxValue = 0;
+    cout << "Введите диапазон чисел массива (сначала минимум, потом максимум) " << endl;
+    cin >> minValue >> maxValue;
+    if (maxValue <= minValue)
     {
-        
-        cout << "Как вы хотите заполнить массив?\n";
-        cout << static_cast<int>(ArrayInputWay::random) << " - random,\n";
-        cout << static_cast<int>(ArrayInputWay::keyboard) << " - keyboard.\n";
-        cout << "Ваш выбор: ";
-        int choice;
-        cin >> choice;
-        
-        const auto chosen = static_cast<ArrayInputWay>(choice);
-        int* myArray = nullptr;
+        cout << "Введен неправильный диапазон!" << endl;
+    }
     
-        auto minValue = 0;
-        auto maxValue = 0;
-        cout << "Введите диапазон чисел массива (сначала минимум, потом максимум) " << endl;
-        cin >> minValue >> maxValue;
-        if (maxValue <= minValue)
-        {
-            cout << "Введен неправильный диапазон!" << endl;
-        }
+    switch (chosen)
+    {
+    case ArrayInputWay::random:
+    {
+        myArray = FillRandomArray(size, minValue, maxValue);
+        break;
+    }
+    case ArrayInputWay::keyboard:
+    {
+        myArray = FillUserArray(size);
+        break;
+    }
+    }
     
-        switch (chosen)
-        {
-        case ArrayInputWay::random:
-        {
-            myArray = FillRandomArray(size, minValue, maxValue);
-            break;
-        }
-        case ArrayInputWay::keyboard:
-        {
-            myArray = FillUserArray(size);
-            break;
-        }
-        }
+    ArrayPrint( myArray, size);
     
-        ArrayPrint( myArray, size);
-    
-        cout << "Массив с заменённым минимальным элементом: ";
+    cout << "Массив с заменённым минимальным элементом: ";
         
-        MinToAverageChange(myArray, size, maxValue);
-        ArrayPrint(myArray, size);
+    MinToAverageChange(myArray, size, maxValue);
+    ArrayPrint(myArray, size);
         
-        PrintBiggerElementsIndex(myArray, size);
+    PrintBiggerElementsIndex(myArray, size);
     
-        if (ArePairs(myArray, size)) {
-            cout << "Есть 2 пары элементов, знаки которых одинаковы.";
-        }
-        else {
-            cout << "Нет таких 2 пар соседних элементов, знаки которых одинаковы.";
-        }
-        cout << endl;
+    if (ArePairs(myArray, size)) {
+        cout << "Есть 2 пары элементов, знаки которых одинаковы.";
+    }
+    else{
+        cout << "Нет таких 2 пар соседних элементов, знаки которых одинаковы.";
+    }
+    cout << endl;
         
-        if (myArray != nullptr) { 
+    if (myArray != nullptr) { 
             
-            delete[] myArray;
-            myArray = nullptr;
+        delete[] myArray;
+        myArray = nullptr;
         
-        }
     }
     return 0;
     
@@ -152,7 +151,7 @@ size_t GetSize(){
      return size;
 };
 
-void PrintBiggerElementsIndex(const int* myArray, size_t size){
+void PrintBiggerElementsIndex(const int* myArray, const size_t size){
     auto previous = 0;
     cout<<"Индексы элементов, значение которых больше значения предыдущего: ";
     for (size_t index = 1; index < size; index++){
@@ -169,7 +168,7 @@ bool ArePairs(const int* myArray, const size_t size ) {
     int previous = 0;
     for (size_t index = 1; index < size; index=index + 2) {
         previous = myArray[index - 1];
-        if (previous >= 0 && myArray[index] >= 0 || previous < 0 && myArray[index] < 0) {
+        if ((previous * myArray[index]) >= 0) {
             countPairs++;
         }
     }

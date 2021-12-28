@@ -32,7 +32,7 @@ void ArrayPrint(const int* myArray, size_t size);
  * \param size размер массива.
  * \return изменённый массив.
  */
-int* IsOddAndMulpiples3(int* myArray, size_t& size);
+int* IsOddAndMulpiples3(int* myArray, size_t size);
 
 /**
  * \brief Создание нового массива по заданным формулам.
@@ -48,7 +48,7 @@ int* ArrayChange(int* myArray, size_t size);
  * \param size размер массива.
  * \param maxValue максимальное значение, которое может принимать элемент массива.
  */
-void MinToLastChange(int* myArray, const size_t size, const int maxValue);
+int* MinToLastChange(int* myArray, const size_t size, const int maxValue);
 
 /**
  * \brief Метод, возвращающий заполненный пользователем массив.
@@ -115,7 +115,7 @@ int main()
 
     cout << "Массив с заменённым минимальным элементом: " << endl;
 
-    MinToLastChange(myArray, size, maxValue);
+    myArray = MinToLastChange(myArray, size, maxValue);
     ArrayPrint(myArray, size);
 
     cout << "Массив с удалёнными нечетными элементами, кратными 3м" << endl;
@@ -149,11 +149,13 @@ size_t GetSize() {
         return size;
 };
 
-void MinToLastChange(int* myArray, const size_t size, const int maxValue)
+int* MinToLastChange(int* myArray, const size_t size, const int maxValue)
 {
     int temprary = 0;
-    if (myArray == nullptr)
+    if (myArray == nullptr){
         cout << "Массив пуст";
+        return nullptr;
+    }
 
     auto minArrayValue = abs(maxValue);
     size_t minElementIndex;
@@ -168,11 +170,18 @@ void MinToLastChange(int* myArray, const size_t size, const int maxValue)
     temprary = myArray[minElementIndex];
     myArray[minElementIndex] = myArray[size - 1];
     myArray[size - 1] = temprary;
+    
+    return myArray;
 }
 
 int* ArrayChange(int* myArray, size_t size)
 {
-
+    int temprary = 0;
+    if (myArray == nullptr){
+        cout << "Массив пуст";
+        return nullptr;
+    }
+    
     int* newArray = new int[size];
     for (size_t index = 0, newindex = 0; index < size; index++) {
         if (myArray[index] % 2 == 1) {
@@ -188,7 +197,7 @@ int* ArrayChange(int* myArray, size_t size)
     return myArray;
 }
 
-int* IsOddAndMulpiples3(int* myArray, size_t& size)
+int* IsOddAndMulpiples3(int* myArray, size_t size)
 {
 
     size_t count = 0;
@@ -205,10 +214,14 @@ int* IsOddAndMulpiples3(int* myArray, size_t& size)
             newindex++;
         }
     }
-    delete[]myArray;
-    myArray = newArray;
-    size = size - count;
-    return myArray;
+    return newArray;
+    
+    if (newArray != nullptr) {
+
+        delete[] newArray;
+        newArray = nullptr;
+
+    }
 }
 
 void ArrayPrint(const int* myArray, const size_t size)
@@ -229,19 +242,15 @@ void ArrayPrint(const int* myArray, const size_t size)
 
 int* FillRandomArray(const size_t size, const int minValue, const int maxValue)
 {
-    random_device rd;
-    
-    mt19937 gen(rd());
-    
-    const std::uniform_int_distribution<> uniformIntDistribution(minValue, maxValue);
-    
-    auto* myArray = new int[size];
-    
-    for (size_t index = 0; index < size; index++)
-    {
-        myArray[index] = uniformIntDistribution(gen);
+    srand(time(NULL));
+    const auto area = abs(minValue) + abs(maxValue) + 1;
+    auto* array = new int[size];
+    for (size_t index = 0; index < size; index++) {
+        array[index] = rand() % area + minValue;
+        cout << array[index] << endl;
     }
-    return myArray;
+
+    return array;
 }
 
 int* FillUserArray(const size_t size)

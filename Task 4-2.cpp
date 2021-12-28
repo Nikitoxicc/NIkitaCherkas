@@ -115,16 +115,40 @@ int main()
 
     cout << "Массив с заменённым минимальным элементом: " << endl;
 
-    myArray = MinToLastChange(myArray, size, maxValue);
-    ArrayPrint(myArray, size);
+    int* newArray = new int[size];
+    newArray = MinToLastChange(myArray, size, maxValue);
+    ArrayPrint(newArray, size);
 
+    if (newArray != nullptr) {
+
+        delete[] newArray;
+        newArray = nullptr;
+
+    }
+
+    int* newArray2 = new int[size];
     cout << "Массив с удалёнными нечетными элементами, кратными 3м" << endl;
-    myArray = IsOddAndMulpiples3(myArray, size);
-    ArrayPrint(myArray, size);
+    newArray2 = IsOddAndMulpiples3(myArray, size);
+    ArrayPrint(newArray2, size);
 
+    if (newArray2 != nullptr) {
+
+        delete[] newArray2;
+        newArray2 = nullptr;
+
+    }
+
+    int* newArray3 = new int[size];
     cout << "Заменённый массив по формулам A[i] = C[i] + i и A[i] = C[i] - i" << endl;
-    myArray = ArrayChange(myArray, size);
-    ArrayPrint(myArray, size);
+    newArray3 = ArrayChange(myArray, size);
+    ArrayPrint(newArray3, size);
+
+    if (newArray3 != nullptr) {
+
+        delete[] newArray3;
+        newArray3 = nullptr;
+
+    }
 
     if (myArray != nullptr) {
 
@@ -192,9 +216,8 @@ int* ArrayChange(int* myArray, size_t size)
         }
         newindex++;
     }
-    delete[]myArray;
-    myArray = newArray;
-    return myArray;
+    
+    return newArray;
 }
 
 int* IsOddAndMulpiples3(int* myArray, size_t size)
@@ -218,14 +241,8 @@ int* IsOddAndMulpiples3(int* myArray, size_t size)
             newindex++;
         }
     }
+    size = size - count;
     return newArray;
-
-    if (newArray != nullptr) {
-
-        delete[] newArray;
-        newArray = nullptr;
-
-    }
 }
 
 void ArrayPrint(const int* myArray, const size_t size)

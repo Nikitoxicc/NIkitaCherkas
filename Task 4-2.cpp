@@ -152,7 +152,7 @@ size_t GetSize() {
 int* MinToLastChange(int* myArray, const size_t size, const int maxValue)
 {
     int temprary = 0;
-    if (myArray == nullptr){
+    if (myArray == nullptr) {
         cout << "Массив пуст";
         return nullptr;
     }
@@ -170,18 +170,18 @@ int* MinToLastChange(int* myArray, const size_t size, const int maxValue)
     temprary = myArray[minElementIndex];
     myArray[minElementIndex] = myArray[size - 1];
     myArray[size - 1] = temprary;
-    
+
     return myArray;
 }
 
 int* ArrayChange(int* myArray, size_t size)
 {
     int temprary = 0;
-    if (myArray == nullptr){
+    if (myArray == nullptr) {
         cout << "Массив пуст";
         return nullptr;
     }
-    
+
     int* newArray = new int[size];
     for (size_t index = 0, newindex = 0; index < size; index++) {
         if (myArray[index] % 2 == 1) {
@@ -199,11 +199,11 @@ int* ArrayChange(int* myArray, size_t size)
 
 int* IsOddAndMulpiples3(int* myArray, size_t size)
 {
-    if (myArray == nullptr){
+    if (myArray == nullptr) {
         cout << "Массив пуст";
         return nullptr;
     }
-    
+
     size_t count = 0;
     for (size_t index = 0; index < size; index++) {
         if (myArray[index] % 2 == 1 && myArray[index] % 3 == 0) {
@@ -219,7 +219,7 @@ int* IsOddAndMulpiples3(int* myArray, size_t size)
         }
     }
     return newArray;
-    
+
     if (newArray != nullptr) {
 
         delete[] newArray;
@@ -246,15 +246,19 @@ void ArrayPrint(const int* myArray, const size_t size)
 
 int* FillRandomArray(const size_t size, const int minValue, const int maxValue)
 {
-    srand(time(NULL));
-    const auto area = abs(minValue) + abs(maxValue) + 1;
-    auto* array = new int[size];
-    for (size_t index = 0; index < size; index++) {
-        array[index] = rand() % area + minValue;
-        cout << array[index] << endl;
-    }
+    random_device rd;
 
-    return array;
+    mt19937 gen(rd());
+
+    const std::uniform_int_distribution<> uniformIntDistribution(minValue, maxValue);
+
+    auto* myArray = new int[size];
+
+    for (size_t index = 0; index < size; index++)
+    {
+        myArray[index] = uniformIntDistribution(gen);
+    }
+    return myArray;
 }
 
 int* FillUserArray(const size_t size)

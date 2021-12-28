@@ -199,7 +199,11 @@ int* ArrayChange(int* myArray, size_t size)
 
 int* IsOddAndMulpiples3(int* myArray, size_t size)
 {
-
+    if (myArray == nullptr){
+        cout << "Массив пуст";
+        return nullptr;
+    }
+    
     size_t count = 0;
     for (size_t index = 0; index < size; index++) {
         if (myArray[index] % 2 == 1 && myArray[index] % 3 == 0) {

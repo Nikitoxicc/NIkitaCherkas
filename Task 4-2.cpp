@@ -10,6 +10,11 @@ using namespace std;
  */
 size_t GetSize();
 
+/**
+ *\brief Вычисление нового размера массива.
+ *\param size размер массива.
+ *\return Размер нового массива.
+*/
 size_t NewSize(const int* myArray, size_t size);
 
 /**
@@ -133,17 +138,9 @@ int main()
 
     }
 
-    int* newArray3 = new int[size];
     cout << "Заменённый массив по формулам A[i] = C[i] + i и A[i] = C[i] - i" << endl;
-    newArray3 = ArrayChange(myArray, size);
-    ArrayPrint(newArray3, size);
-
-    if (newArray3 != nullptr) {
-
-        delete[] newArray3;
-        newArray3 = nullptr;
-
-    }
+    newArray2 = ArrayChange(myArray, size);
+    ArrayPrint(newArray2, size);
 
     if (myArray != nullptr) {
 

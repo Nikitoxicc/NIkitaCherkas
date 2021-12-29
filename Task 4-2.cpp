@@ -10,6 +10,8 @@ using namespace std;
  */
 size_t GetSize();
 
+size_t NewSize(const int* myArray, size_t size);
+
 /**
  * \brief Заполнение массива случайными числами.
  * \param size размер массива.
@@ -48,7 +50,7 @@ int* ArrayChange(int* myArray, size_t size);
  * \param size размер массива.
  * \param maxValue максимальное значение, которое может принимать элемент массива.
  */
-int* MinToLastChange(int* myArray, const size_t size, const int maxValue);
+int* MinToLastChange(const size_t size, const int maxValue);
 
 /**
  * \brief Метод, возвращающий заполненный пользователем массив.
@@ -115,18 +117,11 @@ int main()
 
     cout << "Массив с заменённым минимальным элементом: " << endl;
 
-    int* newArray = new int[size];
-    newArray = MinToLastChange(myArray, size, maxValue);
-    ArrayPrint(newArray, size);
+    myArray = MinToLastChange(size, maxValue);
+    ArrayPrint(myArray, size);
 
-    if (newArray != nullptr) {
 
-        delete[] newArray;
-        newArray = nullptr;
-
-    }
-
-    int* newArray2 = new int[size];
+    int* newArray2 = new int[NewSize(myArray, size)];
     cout << "Массив с удалёнными нечетными элементами, кратными 3м" << endl;
     newArray2 = IsOddAndMulpiples3(myArray, size);
     ArrayPrint(newArray2, size);
@@ -173,29 +168,37 @@ size_t GetSize() {
         return size;
 };
 
-int* MinToLastChange(int* myArray, const size_t size, const int maxValue)
+size_t NewSize(const int* myArray, size_t size) {
+    size_t count = 0;
+    for (size_t index = 0; index < size; index++) {
+        if (myArray[index] % 2 == 1 && myArray[index] % 3 == 0) {
+            count++;
+        }
+    }
+    size = size - count;
+    return size;
+}
+
+int* MinToLastChange(const size_t size, const int maxValue)
 {
     int temprary = 0;
-    if (myArray == nullptr) {
-        cout << "Массив пуст";
-        return nullptr;
-    }
 
     auto minArrayValue = abs(maxValue);
-    size_t minElementIndex;
+    size_t minElementIndex = 0;
 
+    int* newArray = new int[size];
     for (size_t index = 0; index < size; index++) {
-        if (abs(myArray[index]) < minArrayValue) {
-            minArrayValue = abs(myArray[index]);
+        if (abs(newArray[index]) < minArrayValue) {
+            minArrayValue = abs(newArray[index]);
             minElementIndex = index;
         }
     }
 
-    temprary = myArray[minElementIndex];
-    myArray[minElementIndex] = myArray[size - 1];
-    myArray[size - 1] = temprary;
+    temprary = newArray[minElementIndex];
+    newArray[minElementIndex] = newArray[size - 1];
+    newArray[size - 1] = temprary;
 
-    return myArray;
+    return newArray;
 }
 
 int* ArrayChange(int* myArray, size_t size)
@@ -216,7 +219,7 @@ int* ArrayChange(int* myArray, size_t size)
         }
         newindex++;
     }
-    
+
     return newArray;
 }
 
@@ -241,7 +244,6 @@ int* IsOddAndMulpiples3(int* myArray, size_t size)
             newindex++;
         }
     }
-    size = size - count;
     return newArray;
 }
 
